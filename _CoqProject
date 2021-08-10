@@ -1,0 +1,7 @@
+-Q theories playground
+
+theories/base.v
+theories/tactics.v
+theories/ln.v
+theories/prelude.v
+theories/stlc.v
