@@ -10,8 +10,9 @@ jobs:
       - uses: ocaml/setup-ocaml@v2
         with:
           ocaml-compiler: 4.12.x
-      - name: Build
+      - name: Build Dependencies
         run: |
           opam repo add coq-released https://coq.inria.fr/opam/released
           opam install . --deps-only
-          opam exec -- make
+      - name: Build
+        run: opam exec -- make
