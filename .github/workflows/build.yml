@@ -25,5 +25,4 @@ jobs:
           #   endGroup
           # uninstall: ''
       - run: |
-          pwd
-          make html || true
+          opam exec -- make html
