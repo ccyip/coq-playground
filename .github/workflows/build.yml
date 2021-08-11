@@ -5,10 +5,22 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        coq_version:
+          - '8.13'
+          - '8.12'
+        ocaml_version:
+          - '4.11-flambda'
     steps:
       - uses: actions/checkout@v2
       - uses: coq-community/docker-coq-action@v1
         with:
           opam_file: 'coq-playground.opam'
-          coq_version: '8.12'
-          ocaml_version: '4.11-flambda'
+          coq_version: ${{ matrix.coq_version }}
+          ocaml_version: ${{ matrix.ocaml_version }}
+          script: |
+            startGroup "Build"
+              opam exec -- make -j 2
+            endGroup
+          uninstall: ''
