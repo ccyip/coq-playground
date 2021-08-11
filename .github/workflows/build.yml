@@ -9,6 +9,6 @@ jobs:
       - uses: actions/checkout@v2
       - uses: coq-community/docker-coq-action@v1
         with:
-          opam_file: 'opam'
+          opam_file: 'coq-playground.opam'
           coq_version: '8.12'
           ocaml_version: '4.11-flambda'
