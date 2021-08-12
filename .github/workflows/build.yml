@@ -15,14 +15,23 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: coq-community/docker-coq-action@v1
+        env:
+          OPAMWITHDOC: 'true'
+          OPAMINPLACEBUILD: 'true'
         with:
           opam_file: 'coq-playground.opam'
           coq_version: ${{ matrix.coq_version }}
           ocaml_version: ${{ matrix.ocaml_version }}
           export: 'OPAMWITHDOC OPAMINPLACEBUILD'
-        env:
-          OPAMWITHDOC: 'true'
-          OPAMINPLACEBUILD: 'true'
+          before_script: |
+            startGroup "Workaround permission issue"
+              sudo chown -R coq:coq .
+            endGroup
+      - name: Revert permissions
+        # to avoid a warning at cleanup time
+        if: ${{ always() }}
+        run: sudo chown -R 1001:116 .
+
       - run: |
           pwd
           ls -l
