@@ -17,7 +17,12 @@ jobs:
           - '4.11-flambda'
     steps:
       - name: May run
-        if: ${{ github.event_name == 'push' && matrix.coq_version == env.TARGET_COQ_VERSION && matrix.ocaml_version == env.TARGET_OCAML_VERSION }}
+        if: |-
+          ${{
+            github.event_name == 'push' &&
+            matrix.coq_version == env.TARGET_COQ_VERSION &&
+            matrix.ocaml_version == env.TARGET_OCAML_VERSION
+          }}
         run: echo It runs
       # - uses: actions/checkout@v2
       # - uses: actions/checkout@v2
