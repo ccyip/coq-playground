@@ -25,7 +25,7 @@ jobs:
         with:
           repository: ccyip/coqdocjs
           path: coqdocjs
-          ref: 86de13f9cd98b8fcffe6fa66b21040faedde1682
+          ref: f16c54a50f19a69885eb860e9aecbde0b613e34c
 
       - uses: coq-community/docker-coq-action@v1
         env:
