@@ -16,16 +16,13 @@ jobs:
         ocaml_version:
           - '4.11-flambda'
     steps:
-      - name: Test
-        run: |
-          echo matrix.coq_version is ${{matrix.coq_version}}
-          echo matrix.ocaml_version is ${{matrix.ocaml_version}}
-          echo github.event_name is ${{github.event_name}}
-          cat <<EOF
-          ${{toJSON(github)}}
-          EOF
       - name: May run
-        if: ${{ matrix.coq_version == env.TARGET_COQ_VERSION && matrix.ocaml_version == env.TARGET_OCAML_VERSION }}
+        if: |
+          ${{
+            github.event_name == 'push' &&
+            matrix.coq_version == env.TARGET_COQ_VERSION &&
+            matrix.ocaml_version == env.TARGET_OCAML_VERSION
+          }}
         run: echo It runs
       # - uses: actions/checkout@v2
       # - uses: actions/checkout@v2
