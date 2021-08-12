@@ -5,42 +5,54 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      TARGET_COQ_VERSION: 8.12
+      TARGET_OCAML_VERSION: 4.11-flambda
     strategy:
       matrix:
         coq_version:
-          # - '8.13'
+          - '8.13'
           - '8.12'
         ocaml_version:
           - '4.11-flambda'
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/checkout@v2
-        with:
-          repository: ccyip/coqdocjs
-          path: coqdocjs
-          ref: 86de13f9cd98b8fcffe6fa66b21040faedde1682
+      - name: Test
+        run: |
+          echo matrix.coq_version is ${{matrix.coq_version}}
+          echo matrix.ocaml_version is ${{matrix.ocaml_version}}
+          echo github.event_name is ${{github.event_name}}
+          echo ${{toJSON(github)}}
+      - name: May run
+        if: ${{ matrix.coq_version == env.TARGET_COQ_VERSION && matrix.ocaml_version == env.TARGET_OCAML_VERSION }}
+        run: echo It runs
+      # - uses: actions/checkout@v2
+      # - uses: actions/checkout@v2
+      #   with:
+      #     repository: ccyip/coqdocjs
+      #     path: coqdocjs
+      #     ref: 86de13f9cd98b8fcffe6fa66b21040faedde1682
 
-      - uses: coq-community/docker-coq-action@v1
-        env:
-          OPAMWITHDOC: 'true'
-          OPAMINPLACEBUILD: 'true'
-        with:
-          opam_file: 'coq-playground.opam'
-          coq_version: ${{ matrix.coq_version }}
-          ocaml_version: ${{ matrix.ocaml_version }}
-          export: 'OPAMWITHDOC OPAMINPLACEBUILD'
-          before_script: |
-            startGroup "Workaround permission issue"
-              sudo chown -R coq:coq .
-            endGroup
-      - name: Revert permissions
-        # to avoid a warning at cleanup time
-        if: ${{ always() }}
-        run: sudo chown -R 1001:116 .
+      # - uses: coq-community/docker-coq-action@v1
+      #   env:
+      #     OPAMWITHDOC: 'true'
+      #     OPAMINPLACEBUILD: 'true'
+      #   with:
+      #     opam_file: 'coq-playground.opam'
+      #     coq_version: ${{ matrix.coq_version }}
+      #     ocaml_version: ${{ matrix.ocaml_version }}
+      #     export: 'OPAMWITHDOC OPAMINPLACEBUILD'
+      #     before_script: |
+      #       startGroup "Workaround permission issue"
+      #         sudo chown -R coq:coq .
+      #       endGroup
+      # - name: Revert permissions
+      #   # to avoid a warning at cleanup time
+      #   if: ${{ always() }}
+      #   run: sudo chown -R 1001:116 .
 
-      - name: Deploy documentation
-        uses: JamesIves/github-pages-deploy-action@4.1.4
-        with:
-          branch: gh-pages
-          folder: html
-          target-folder: master
+      # - name: Deploy documentation
+      #   uses: JamesIves/github-pages-deploy-action@4.1.4
+      #   with:
+      #     branch: gh-pages
+      #     folder: html
+      #     target-folder: master
