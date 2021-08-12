@@ -114,10 +114,10 @@ Inductive value : tm -> Prop :=
   | VFalse :
       value <{ false }>.
 
+(** ** Step relation *)
 (* Unfortunately the notation --> is used in the standard library. *)
 Reserved Notation "t '-->!' t'" (at level 40).
 
-(** ** Step relation (t -->! t') *)
 Inductive step : tm -> tm -> Prop :=
 | SAppAbs τ t1 v2 :
     value v2 ->
@@ -147,7 +147,6 @@ Notation tctx := (amap ty).
 
 Reserved Notation "Γ '⊢' t ':' τ" (at level 101,
                                    t custom stlc, τ custom stlc at level 0).
-(** ** Typing relation (Γ ⊢ t : τ) *)
 Inductive typing : tctx -> tm -> ty -> Prop :=
   | TVar Γ x τ :
       Γ !! x = Some τ ->
@@ -226,15 +225,15 @@ Instance aset_stale : Stale aset := id.
 Arguments aset_stale /.
 
 Lemma open_lc_ t : forall s u i j,
-  <{ [j~>u]([i~>s] t) }> = <{ [i~>s] t }> ->
+  <{ [j~>u]([i~>s]t) }> = <{ [i~>s]t }> ->
   i <> j ->
-  <{ [j~>u] t }> = t.
+  <{ [j~>u]t }> = t.
 Proof.
   induction t; hauto.
 Qed.
 
 Lemma open_lc t s :
-  lc t -> forall k, <{ [k~>s] t }> = t.
+  lc t -> forall k, <{ [k~>s]t }> = t.
 Proof.
   induction 1; try qauto.
 
@@ -244,7 +243,7 @@ Proof.
 Qed.
 
 Lemma subst_fresh t : forall x s,
-  x # t -> <{ [x:=s] t }> = t.
+  x # t -> <{ [x:=s]t }> = t.
 Proof.
   induction t; qauto solve: fast_set_solver*.
 Qed.
@@ -260,7 +259,7 @@ Qed.
 Lemma subst_open_comm t x y s :
   x <> y ->
   lc s ->
-  <{ [x:=s] (t ^ y) }> = <{ ([x:=s] t) ^ y }>.
+  <{ [x:=s](t^y) }> = <{ ([x:=s]t)^y }>.
 Proof.
   qauto use: subst_open.
 Qed.
@@ -270,7 +269,7 @@ induction gives us a slightly stronger version (without the local closure
 constraint). *)
 Lemma subst_intro t : forall s x,
   x # t ->
-  <{ t ^ s }> = <{ [x:=s] (t ^ x) }>.
+  <{ t^s }> = <{ [x:=s](t^x) }>.
 Proof.
   unfold open. generalize 0.
   induction t; hauto simp+: set_unfold.
@@ -414,7 +413,7 @@ Definition stuck (t : tm) : Prop :=
 Corollary soundness t t' τ :
   ∅ ⊢ t : τ ->
   t -->* t' ->
-  ~(stuck t').
+  ~ (stuck t').
 Proof.
   induction 2; qauto unfold: nf, stuck use: progress, preservation.
 Qed.
