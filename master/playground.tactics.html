@@ -238,17 +238,22 @@ is <span class="inlinecode"><span class="id" title="keyword">forall</span></span
 <div class="doc">
 <a id="lab6"></a><h2 class="section">Set solving</h2>
 
+<div class="paragraph"> </div>
+
+ Much faster set solving tactic, with less solving strength. 
 </div>
 <div class="code">
-
-<br/>
-<span class="comment">(*&nbsp;Much&nbsp;faster&nbsp;set&nbsp;solving&nbsp;tactic,&nbsp;with&nbsp;less&nbsp;solving&nbsp;strength.&nbsp;*)</span><br/>
 <span class="id" title="keyword">Tactic Notation</span> "fast_set_solver" :=<br/>
 &nbsp;&nbsp;<span class="id" title="tactic">solve</span> [<span class="id" title="tactic">try</span> <span class="id" title="var">fast_done</span>; <span class="id" title="tactic">repeat</span> (<span class="id" title="var">set_unfold</span>; <span class="id" title="tactic">subst</span>; <span class="id" title="tactic">intuition</span>)].<br/>
 
 <br/>
-<span class="comment">(*&nbsp;Faster&nbsp;set&nbsp;solving&nbsp;tactic.&nbsp;Stronger&nbsp;than&nbsp;<span class="inlinecode"><span class="id" title="var">fast_set_solver</span></span>,&nbsp;but&nbsp;also<br/>
-slower.&nbsp;*)</span><br/>
+</div>
+
+<div class="doc">
+Faster set solving tactic. Stronger than <span class="inlinecode"><span class="id" title="var">fast_set_solver</span></span>, but also
+slower. 
+</div>
+<div class="code">
 <span class="id" title="keyword">Tactic Notation</span> "fast_set_solver" "*" :=<br/>
 &nbsp;&nbsp;<span class="id" title="tactic">try</span> <span class="id" title="var">fast_done</span>; <span class="id" title="var">set_unfold</span>; <span class="id" title="var">qauto</span>.<br/>
 
@@ -261,7 +266,7 @@ slower.&nbsp;*)</span><br/>
 </div>
 
 <div class="doc">
-Pruning the hypotheses before set solving can *dramatically* improve
+Pruning the hypotheses before set solving can <i>dramatically</i> improve
 performance. The following pruning tactics are based on heuristics, and they can
 make the goal unprovable. While they are unsound, they still work fine in our
 cases. A better approach is probably similar to finding a transitive closure of

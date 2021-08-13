@@ -17,4 +17,5 @@ var coqdocjs_conf = {
         // "-->*" : "⟶★"
     },
     // replInText: ["-->!","-->*"]
+    replInText: []
 }
