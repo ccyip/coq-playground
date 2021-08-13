@@ -5,7 +5,7 @@ function replace(s){
   var m;
   if (m = s.match(/^(.+)'/)) {
     return replace(m[1])+"'";
-  } else if (m = s.match(/^([A-Za-z]+)_?(\d+)$/)) {
+  } else if (m = s.match(/^(\p{L}+)_?(\d+)$/u)) {
     return replace(m[1])+m[2].replace(/\d/g, function(d){
       if (coqdocjs.subscr.hasOwnProperty(d)) {
         return coqdocjs.subscr[d];
@@ -46,7 +46,7 @@ function replInTextNodes() {
 
 function replNodes() {
   toArray(document.getElementsByClassName("id")).forEach(function(node){
-    if (["var", "variable", "keyword", "notation", "definition", "inductive"].indexOf(node.getAttribute("type"))>=0){
+    if (["var", "variable", "binder", "keyword", "notation", "definition", "inductive"].indexOf(node.getAttribute("type"))>=0){
       var text = node.textContent;
       var replText = replace(text);
       if(text != replText) {
@@ -179,6 +179,7 @@ function fixTitle(){
 }
 
 function postprocess(){
+  document.getElementById("project-page").href = coqdocjs.project_page;
   repairDom();
   replInTextNodes()
   replNodes();

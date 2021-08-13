@@ -1,5 +1,7 @@
 var coqdocjs = coqdocjs || {};
 
+coqdocjs.project_page = "../";
+
 coqdocjs.repl = {
     "forall": "∀",
     "exists": "∃",
@@ -70,3 +72,12 @@ coqdocjs.subscr = {
 };
 
 coqdocjs.replInText = ["==>","<=>", "=>", "->", "<-", ":="];
+
+// Update with user config
+Object.assign(coqdocjs, coqdocjs_conf);
+if (coqdocjs_conf.more_repl) {
+    Object.assign(coqdocjs.repl, coqdocjs_conf.more_repl);
+}
+if (coqdocjs_conf.more_replInText) {
+    coqdocjs.replInText = coqdocjs_conf.more_replInText.concat(coqdocjs.replInText);
+}
