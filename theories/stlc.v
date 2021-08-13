@@ -328,7 +328,7 @@ Proof.
   qauto use: open_fresh.
 Qed.
 
-(* The admissible existential introduction form of abstraction. *)
+(** The admissible existential introduction form of abstraction. *)
 Lemma TAbs_intro Γ τ1 τ2 t1 x :
   x ∉ fv t1 ∪ dom aset Γ ->
   <[x:=τ2]>Γ ⊢ t1^x : τ1 ->
