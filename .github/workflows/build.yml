@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      TARGET_COQ_VERSION: 8.12
+      TARGET_COQ_VERSION: 8.13
       TARGET_OCAML_VERSION: 4.11-flambda
     strategy:
       matrix:
@@ -25,7 +25,7 @@ jobs:
         with:
           repository: ccyip/coqdocjs
           path: coqdocjs
-          ref: 576c161c0160d64a15b570fac723f7ea2eaaec80
+          ref: 4952526b12b7e07e33d88810b62345db6fe16a2f
 
       - uses: coq-community/docker-coq-action@v1
         env:
